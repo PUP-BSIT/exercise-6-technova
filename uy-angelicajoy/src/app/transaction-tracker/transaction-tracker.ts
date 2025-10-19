@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 interface Transaction {
   itemName: string;
@@ -13,40 +13,37 @@ interface Transaction {
 @Component({
   selector: 'app-transaction-tracker',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './transaction-tracker.html',
   styleUrl: './transaction-tracker.scss',
 })
 export class TransactionTracker {
-  formData: Transaction = {
-    itemName: '',
-    category: '',
-    amount: 0,
-    type: '',
-    date: new Date().toISOString().split('T')[0],
-  };
-
+  transactionForm: FormGroup;
   transactions: Transaction[] = [];
 
-  addTransaction(): void {
-    if (
-      this.formData.itemName &&
-      this.formData.category &&
-      this.formData.amount &&
-      this.formData.type &&
-      this.formData.date
-    ) {
-      // Add transaction to the list
-      this.transactions.unshift({ ...this.formData });
+  constructor(private fb: FormBuilder) {
+    this.transactionForm = this.fb.group({
+      itemName: ['', Validators.required],
+      category: ['', Validators.required],
+      amount: [0, [Validators.required, Validators.min(0.01)]],
+      type: ['', Validators.required],
+      date: [new Date().toISOString().split('T')[0], Validators.required]
+    });
+  }
 
-      // Clear the form
-      this.formData = {
+  addTransaction(): void {
+    if (this.transactionForm.valid) {
+      // Add transaction to the list
+      this.transactions.unshift({ ...this.transactionForm.value });
+
+      // Reset the form
+      this.transactionForm.reset({
         itemName: '',
         category: '',
         amount: 0,
         type: '',
-        date: new Date().toISOString().split('T')[0],
-      };
+        date: new Date().toISOString().split('T')[0]
+      });
     }
   }
 
