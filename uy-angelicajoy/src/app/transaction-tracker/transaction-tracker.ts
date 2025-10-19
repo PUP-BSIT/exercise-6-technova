@@ -1,6 +1,11 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { 
+  ReactiveFormsModule, 
+  FormBuilder, 
+  FormGroup, 
+  Validators 
+} from '@angular/forms';
 
 interface Transaction {
   itemName: string;
