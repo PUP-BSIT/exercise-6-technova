@@ -1,0 +1,115 @@
+<div class="container">
+  <h1>🚘 Car Record Manager</h1>
+
+  <div class="form-container">
+    <h2>Add New Car</h2>
+    <form [formGroup]="carFormGroup" (ngSubmit)="onAddCar()">
+
+      <!-- Car Brand -->
+      <div class="form-group">
+        <label for="carBrand">Car Brand:</label>
+        <input
+          type="text"
+          id="carBrand"
+          formControlName="carBrand"
+          placeholder="e.g. Toyota, Honda, Ford" />
+
+        @if (carFormGroup.get('carBrand')?.invalid && 
+                carFormGroup.get('carBrand')?.touched) {
+          <div class="error-message">
+            @if (carFormGroup.get('carBrand')?.errors?.['required']) {
+              <span>Car brand is required.</span>
+            }
+            @if (carFormGroup.get('carBrand')?.errors?.['hasNumbers']) {
+              <span>Car brand cannot contain numbers.</span>
+            }
+          </div>
+        }
+      </div>
+
+      <!-- Car Model -->
+      <div class="form-group">
+        <label for="carModel">Car Model:</label>
+        <input
+          type="text"
+          id="carModel"
+          formControlName="carModel"
+          placeholder="e.g. Vios, Civic, Ranger" />
+
+        @if (carFormGroup.get('carModel')?.invalid && 
+                carFormGroup.get('carModel')?.touched) {
+          <div class="error-message">
+            <span>Car model is required.</span>
+          </div>
+        }
+      </div>
+
+      <!-- Body Type -->
+      <div class="form-group">
+        <label for="bodyType">Body Type:</label>
+        <select id="bodyType" formControlName="bodyType">
+          <option value="">Select body type</option>
+
+          @for (type of bodyTypeOptions; track type) {
+            <option [value]="type">{{ type }}</option>
+          }
+        </select>
+      </div>
+
+      <!-- Transmission Type -->
+      <div class="form-group">
+        <label for="transmissionType">Transmission Type:</label>
+        <select id="transmissionType" formControlName="transmissionType">
+          <option value="">Select transmission</option>
+          
+          @for (trans of transmissionOptions; track trans) {
+            <option [value]="trans">{{ trans }}</option>
+          }
+        </select>
+      </div>
+
+      <!-- Fuel Type -->
+      <div class="form-group">
+        <label for="fuelType">Fuel Type:</label>
+        <select id="fuelType" formControlName="fuelType">
+          <option value="">Select fuel type</option>
+          
+          @for (fuel of fuelTypeOptions; track fuel) {
+            <option [value]="fuel">{{ fuel }}</option>
+          }
+        </select>
+      </div>
+
+      <!-- Add Button -->
+      <button
+        type="submit"
+        class="add-btn"
+        [disabled]="carFormGroup.invalid">
+        ADD CAR
+      </button>
+    </form>
+  </div>
+
+  <!-- Car List Section -->
+  @if (carList.length > 0) {
+    <div class="list-container">
+      <h2>My Cars ({{ carList.length }} records)</h2>
+      <div class="car-list">
+        @for (car of carList; track $index) {
+          <div class="car-item">
+            <h3>🚗 {{ car.carBrand }} {{ car.carModel }}</h3>
+            <p><strong>Body Type:</strong> {{ car.bodyType }}</p>
+            <p><strong>Transmission:</strong> {{ car.transmissionType }}</p>
+            <p><strong>Fuel Type:</strong> {{ car.fuelType }}</p>
+          </div>
+        }
+      </div>
+    </div>
+  }
+
+  @if (carList.length === 0) {
+    <div class="empty-state">
+      <p>No cars added yet. Add your first record above! 🚘</p>
+    </div>
+  }
+</div>
