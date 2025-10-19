@@ -1,1 +1,101 @@
-<p>song-form works!</p>
+<div class="container">
+  <div class="card">
+    <h2>Add a Song</h2>
+    
+    <form [formGroup]="songForm">
+      <div>
+        <label for="title">Song Title:</label>
+        <input
+            id="title"
+            type="text"
+            formControlName="title"
+            placeholder="Enter song title">
+        @if (songForm.get('title')?.invalid && 
+                songForm.get('title')?.touched) {
+          <small class="error">Song title is required</small>
+        }
+      </div>
+
+      <div>
+        <label for="artist">Artist:</label>
+        <input
+            id="artist"
+            type="text"
+            formControlName="artist"
+            placeholder="Enter artist name">
+        @if (songForm.get('artist')?.invalid && 
+                songForm.get('artist')?.touched) {
+          <small class="error">Artist is required</small>
+        }
+      </div>
+
+      <div>
+        <label for="genre">Genre:</label>
+        <select
+            id="genre"
+            formControlName="genre">
+          <option value="">Select a genre</option>
+          @for (genre of genres; track genre) {
+            <option [value]="genre">{{ genre }}</option>
+          }
+        </select>
+        @if (songForm.get('genre')?.invalid && 
+                songForm.get('genre')?.touched) {
+          <small class="error">Genre is required</small>
+        }
+      </div>
+
+      <div>
+        <label for="releaseYear">Release Year:</label>
+        <input
+            id="releaseYear"
+            type="number"
+            formControlName="releaseYear"
+            placeholder="Enter release year">
+        @if (songForm.get('releaseYear')?.invalid && 
+                songForm.get('releaseYear')?.touched) {
+          <small class="error">
+            Please enter a valid year (1900-2100)
+          </small>
+        }
+      </div>
+
+      <div>
+        <label>
+          <input
+              type="checkbox"
+              formControlName="isFavorite">
+          Mark as Favorite
+        </label>
+      </div>
+
+      <button
+          type="button"
+          (click)="onAdd()"
+          [disabled]="songForm.invalid">
+        ADD
+      </button>
+    </form>
+  </div>
+
+  <div class="card">
+    <h2>Songs List</h2>
+  
+    @if (songs.length === 0) {
+      <p>No songs added yet.</p>
+    } @else {
+      <ul>
+        @for (song of songs; track $index) {
+          <li>
+            <strong>{{ song.title }}</strong> by {{ song.artist }}
+            - Genre: {{ song.genre }}
+            - Year: {{ song.releaseYear }}
+            @if (song.isFavorite) {
+              <span> ⭐ Favorite</span>
+            }
+          </li>
+        }
+      </ul>
+    }
+  </div>
+</div>
