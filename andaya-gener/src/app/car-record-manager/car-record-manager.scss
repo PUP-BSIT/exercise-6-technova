@@ -1,0 +1,139 @@
+.container {
+  max-width: 700px;
+  margin: 40px auto;
+  background-color: #add6af;
+  border-radius: 12px;
+  padding: 30px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+
+  h1 {
+    text-align: center;
+    color: #1a202c;
+    margin-bottom: 20px;
+  }
+
+  .form-container {
+    background: #f6ecec;
+    border: 1px solid #e2e8f0;
+    padding: 25px;
+    border-radius: 10px;
+    margin-bottom: 30px;
+
+    h2 {
+      text-align: center;
+      margin-bottom: 20px;
+      color: #2d3748;
+    }
+
+    .form-group {
+      margin-bottom: 15px;
+
+      label {
+        display: block;
+        font-weight: 600;
+        margin-bottom: 6px;
+      }
+
+      input,
+      select {
+        display: block;
+        width: 100%;
+        padding: 10px;
+        border-radius: 6px;
+        border: 1px solid #cbd5e0;
+        font-size: 14px;
+        transition: border-color 0.2s;
+        box-sizing: border-box;
+
+        &:focus {
+          border-color: #3182ce;
+          outline: none;
+        }
+      }
+
+      select {
+        background-color: #fff;
+        appearance: none;
+        background-image: linear-gradient(45deg, transparent 50%, #718096 50%),
+          linear-gradient(135deg, #718096 50%, transparent 50%);
+        background-position: calc(100% - 20px) calc(1em + 2px),
+          calc(100% - 15px) calc(1em + 2px);
+        background-size: 5px 5px, 5px 5px;
+        background-repeat: no-repeat;
+      }
+
+      .error-message {
+        margin-top: 5px;
+        color: #e53e3e;
+        font-size: 13px;
+      }
+    }
+
+    .add-btn {
+      width: 100%;
+      padding: 12px;
+      font-size: 16px;
+      background-color: #2b6cb0;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+
+      &:disabled {
+        background-color: #a0aec0;
+        cursor: not-allowed;
+      }
+
+      &:hover:not(:disabled) {
+        background-color: #2c5282;
+      }
+    }
+  }
+
+  .list-container {
+    background: #f6ecec;
+    border: 1px solid #e2e8f0;
+    border-radius: 10px;
+    padding: 20px;
+
+    h2 {
+      text-align: center;
+      margin-bottom: 15px;
+      color: #2d3748;
+    }
+
+    .car-list {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+
+      .car-item {
+        padding: 15px;
+        border: 1px solid #e2e8f0;
+        border-radius: 8px;
+        background: #f7fafc;
+
+        h3 {
+          margin: 0 0 5px;
+          color: #2b6cb0;
+        }
+
+        p {
+          margin: 4px 0;
+          font-size: 14px;
+
+          strong {
+            color: #2d3748;
+          }
+        }
+      }
+    }
+  }
+
+  .empty-state {
+    text-align: center;
+    color: #2f3030;
+    font-style: italic;
+  }
+}
