@@ -1,22 +1,19 @@
 <div class="container">
   <div class="form-card">
     <h3>Add Transaction</h3>
-    <form (ngSubmit)="addTransaction()" #transactionForm="ngForm">
+    <form [formGroup]="transactionForm" (ngSubmit)="addTransaction()">
       <div class="form-group">
         <label for="itemName">Item Name</label>
         <input
           type="text"
           id="itemName"
-          [(ngModel)]="formData.itemName"
-          name="itemName"
-          placeholder="e.g., Groceries, Salary"
-          required />
+          formControlName="itemName"
+          placeholder="e.g., Groceries, Salary" />
       </div>
 
       <div class="form-group">
         <label for="category">Category</label>
-        <select id="category" [(ngModel)]="formData.category" 
-                name="category" required>
+        <select id="category" formControlName="category">
           <option value="">Select Category</option>
           <option value="Food">Food</option>
           <option value="Transport">Transport</option>
@@ -31,17 +28,14 @@
         <input
           type="number"
           id="amount"
-          [(ngModel)]="formData.amount"
-          name="amount"
+          formControlName="amount"
           placeholder="e.g., ₱1200"
-          step="0.01"
-          required />
+          step="0.01" />
       </div>
 
       <div class="form-group">
         <label for="type">Type</label>
-        <select id="type" [(ngModel)]="formData.type" 
-                name="type" required>
+        <select id="type" formControlName="type">
           <option value="">Select Type</option>
           <option value="Expense">Expense</option>
           <option value="Income">Income</option>
@@ -50,13 +44,11 @@
 
       <div class="form-group">
         <label for="date">Date</label>
-        <input type="date" id="date" 
-              [(ngModel)]="formData.date" 
-              name="date" required />
+        <input type="date" id="date" formControlName="date" />
       </div>
 
       <button type="submit" class="add-btn" 
-              [disabled]="!transactionForm.form.valid">
+              [disabled]="!transactionForm.valid">
               ADD
       </button>
     </form>
@@ -74,19 +66,17 @@
     @if (transactions.length > 0) {
     <div class="transaction-list">
       @for (transaction of transactions; track transaction; let i = $index) {
-      <div class="transaction-item"
-                  [ngClass]="{ income: transaction.type === 'Income',
-                  expense: transaction.type === 'Expense'}">
+      <div class="transaction-item">
         <div class="transaction-header">
           <h4>{{ transaction.itemName }}</h4>
-          <span class="amount" [ngClass]="transaction.type.toLowerCase()">
+          <span class="amount">
             {{ transaction.type === 'Income' ? '+' : '-' }}
             ₱{{ transaction.amount | number : '1.2-2' }}
           </span>
         </div>
         <div class="transaction-details">
           <span class="category">{{ transaction.category }}</span>
-          <span class="type-badge" [ngClass]="transaction.type.toLowerCase()">
+          <span class="type-badge">
             {{ transaction.type }}
           </span>
           <span class="date">
