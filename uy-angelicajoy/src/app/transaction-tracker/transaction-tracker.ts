@@ -23,11 +23,11 @@ export class TransactionTracker {
 
   constructor(private fb: FormBuilder) {
     this.transactionForm = this.fb.group({
-      itemName: ['', Validators.required],
-      category: ['', Validators.required],
-      amount: [0, [Validators.required, Validators.min(0.01)]],
-      type: ['', Validators.required],
-      date: [new Date().toISOString().split('T')[0], Validators.required]
+      itemName: ['', { validators: [Validators.required] }],
+      category: ['', { validators: [Validators.required] }],
+      amount: [0, { validators: [Validators.required, Validators.min(0.01)] }],
+      type: ['', { validators: [Validators.required] }],
+      date: [new Date().toISOString().split('T')[0], { validators: [Validators.required] }]
     });
   }
 
