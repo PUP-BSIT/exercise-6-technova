@@ -1,0 +1,118 @@
+<div class="container">
+  <h1>🐾 My Pet Manager</h1>
+
+  <div class="form-container">
+    <h2>Add New Pet</h2>
+    <form [formGroup]="petForm" (ngSubmit)="addPet()">
+
+      <!-- pet name: text input -->
+      <div class="form-group">
+        <label for="name">Pet Name:</label>
+        <input
+          type="text"
+          id="name"
+          formControlName="name"
+          placeholder="Enter pet's name">
+        @if (petForm.get('name')?.invalid && petForm.get('name')?.touched) {
+          <div class="error-message">
+            @if (petForm.get('name')?.errors?.['required']) {
+              <span>Pet name is required.</span>
+            }
+            @if (petForm.get('name')?.errors?.['hasNumbers']) {
+              <span>Pet name cannot contain numbers.</span>
+            }
+          </div>
+        }
+      </div>
+
+      <!-- species: dropdown -->
+      <div class="form-group">
+        <label for="species">Species:</label>
+        <select
+          id="species"
+          formControlName="species">
+          <option value="">Select a species</option>
+          @for (species of speciesOptions; track species) {
+            <option [value]="species">{{ species }}</option>
+          }
+        </select>
+      </div>
+
+      <!-- breed: text input -->
+      <div class="form-group">
+        <label for="breed">Breed:</label>
+        <input
+          type="text"
+          id="breed"
+          formControlName="breed"
+          placeholder="Enter breed">
+        @if (petForm.get('breed')?.invalid && petForm.get('breed')?.touched) {
+          <div class="error-message">
+            @if (petForm.get('breed')?.errors?.['required']) {
+              <span>Breed is required.</span>
+            }
+            @if (petForm.get('breed')?.errors?.['hasNumbers']) {
+              <span>Breed cannot contain numbers.</span>
+            }
+          </div>
+        }
+      </div>
+
+      <!-- age: number input -->
+      <div class="form-group">
+        <label for="age">Age (years):</label>
+        <input
+          type="number"
+          id="age"
+          formControlName="age"
+          min="0">
+      </div>
+
+      <!-- isVaccinated: checkbox -->
+      <div class="form-group checkbox-group">
+        <label>
+          <input
+            type="checkbox"
+            formControlName="isVaccinated">
+          Fully Vaccinated
+        </label>
+      </div>
+
+      <button
+        type="submit"
+        class="add-btn"
+        [disabled]="petForm.invalid">
+        ADD
+      </button>
+    </form>
+  </div>
+
+  <!-- pet list -->
+  @if (petList.length > 0) {
+    <div class="list-container">
+      <h2>My Pets ({{ petList.length }} pets)</h2>
+      <div class="pet-list">
+        @for (pet of petList; track $index) {
+          <div class="pet-item">
+            <h3>🐾 {{ pet.name }}</h3>
+            <p><strong>Species:</strong> {{ pet.species }}</p>
+            <p><strong>Breed:</strong> {{ pet.breed }}</p>
+            <p><strong>Age:</strong>
+              {{ pet.age }} {{ pet.age === 1 ? 'year' : 'years' }} old
+            </p>
+            <p class="vaccination" [class.vaccinated]="pet.isVaccinated">
+              <strong>Vaccination:</strong>
+              {{ pet.isVaccinated ? '✓ Vaccinated' : '✗ Not Vaccinated' }}
+            </p>
+          </div>
+        }
+      </div>
+    </div>
+  }
+
+  @if (petList.length === 0) {
+    <div class="empty-state">
+      <p>No pets added yet. Add your first pet above! 🐶🐱</p>
+    </div>
+  }
+</div>
