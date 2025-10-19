@@ -1,0 +1,101 @@
+<div class="container">
+  <h1>Book Collection Manager</h1>
+  
+  <!-- Book Form -->
+  <div class="form-section">
+    <h2>Add New Book</h2>
+    <form [formGroup]="bookForm" (ngSubmit)="addBook()">
+      <div class="form-field">
+        <label for="title">Book Title </label>
+        <input 
+          type="text" 
+          id="title" 
+          formControlName="title" 
+          placeholder="Enter book title">
+        @if (bookForm.get('title')?.invalid && 
+                bookForm.get('title')?.touched) {
+          <div>Title is required</div>
+        }
+      </div>
+
+      <div class="form-field">
+        <label for="author">Author </label>
+        <input 
+          type="text" 
+          id="author" 
+          formControlName="author" 
+          placeholder="Enter author name">
+        @if (bookForm.get('author')?.invalid && 
+                bookForm.get('author')?.touched) {
+          <div>Author is required</div>
+        }
+      </div>
+
+      <div class="form-field">
+        <label for="genre">Genre </label>
+        <select id="genre" formControlName="genre">
+          <option value="">Select genre</option>
+          <option value="Fiction">Fiction</option>
+          <option value="Non-Fiction">Non-Fiction</option>
+          <option value="Mystery">Mystery</option>
+          <option value="Romance">Romance</option>
+          <option value="Sci-Fi">Sci-Fi</option>
+          <option value="Fantasy">Fantasy</option>
+          <option value="Biography">Biography</option>
+          <option value="History">History</option>
+        </select>
+        @if (bookForm.get('genre')?.invalid && 
+                bookForm.get('genre')?.touched) {
+          <div>Genre is required</div>
+        }
+      </div>
+
+      <div class="form-field">
+        <label>
+          <input type="checkbox" formControlName="isRead">
+          I have read this book
+        </label>
+      </div>
+
+      <div class="form-field">
+        <label for="rating">Rating (1-5 stars) </label>
+        <select id="rating" formControlName="rating">
+          <option value=""></option>
+          <option value="1">1 star</option>
+          <option value="2">2 stars</option>
+          <option value="3">3 stars</option>
+          <option value="4">4 stars</option>
+          <option value="5">5 stars</option>
+        </select>
+        @if (bookForm.get('rating')?.invalid && 
+                bookForm.get('rating')?.touched) {
+          <div>Rating is required</div>
+        }
+      </div>
+
+      <button type="submit" [disabled]="bookForm.invalid">
+        ADD BOOK
+      </button>
+    </form>
+  </div>
+
+  <!-- Books List -->
+  <div class="books-section">
+    <h2>My Book Collection ({{books.length}} books)</h2>
+    @if (books.length === 0) {
+      <p>No books added yet. Add your first book above!</p>
+    }
+    @for (book of books; track book.id) {
+      <div class="book-card">
+        <h3>{{book.title}}</h3>
+        <p>by {{book.author}}</p>
+        <div>
+          <p>{{book.genre}}</p>
+          <p>{{'*'.repeat(book.rating)}}</p>
+          <p>{{book.isRead ? 'Read' : 'Not Read'}}</p>
+        </div>
+        <button (click)="removeBook(book.id)">Remove</button>
+      </div>
+    }
+  </div>
+</div>
